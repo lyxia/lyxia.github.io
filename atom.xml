@@ -4,7 +4,7 @@
   <title><![CDATA[小乖乖的博客]]></title>
   <link href="http://lyxia.github.io/atom.xml" rel="self"/>
   <link href="http://lyxia.github.io/"/>
-  <updated>2015-06-02T00:47:58+08:00</updated>
+  <updated>2015-06-02T00:50:36+08:00</updated>
   <id>http://lyxia.github.io/</id>
   <author>
     <name><![CDATA[Lyxia]]></name>
@@ -14,13 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[I Love Coding]]></title>
+    <title type="html"><![CDATA[iOS多线程的三种技术]]></title>
     <link href="http://lyxia.github.io/blog/2015/06/02/i-love-coding/"/>
     <updated>2015-06-02T00:44:57+08:00</updated>
     <id>http://lyxia.github.io/blog/2015/06/02/i-love-coding</id>
-    <content type="html"><![CDATA[<h1>iOS多线程的三种技术</h1>
-
-<ul>
+    <content type="html"><![CDATA[<ul>
 <li><strong>NSThread</strong>
 
 <ul>
