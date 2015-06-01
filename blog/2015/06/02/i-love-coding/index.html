@@ -1,24 +1,89 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[小乖乖的博客]]></title>
-  <link href="http://lyxia.github.io/atom.xml" rel="self"/>
-  <link href="http://lyxia.github.io/"/>
-  <updated>2015-06-02T00:47:58+08:00</updated>
-  <id>http://lyxia.github.io/</id>
-  <author>
-    <name><![CDATA[Lyxia]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>I Love Coding - 小乖乖的博客</title>
+  <meta name="author" content="Lyxia">
 
   
-  <entry>
-    <title type="html"><![CDATA[I Love Coding]]></title>
-    <link href="http://lyxia.github.io/blog/2015/06/02/i-love-coding/"/>
-    <updated>2015-06-02T00:44:57+08:00</updated>
-    <id>http://lyxia.github.io/blog/2015/06/02/i-love-coding</id>
-    <content type="html"><![CDATA[<h1>iOS多线程的三种技术</h1>
+  <meta name="description" content="iOS多线程的三种技术 NSThread 使用NSThread对象建立一个线程非常方便
+使用NSThread管理多个线程非常困难，不推荐使用
+使用[NSThread currentThread]跟踪任务所在线程，适用于这三种技术 GCD Grand Central Dispatch(GCD) &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lyxia.github.io/blog/2015/06/02/i-love-coding/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="小乖乖的博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">小乖乖的博客</a></h1>
+  
+    <h2>小乖乖</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.baidu.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lyxia.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">I Love Coding</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-02T00:44:57+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:44 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>iOS多线程的三种技术</h1>
 
 <ul>
 <li><strong>NSThread</strong>
@@ -283,7 +348,89 @@
 <h1>注意的知识点</h1>
 
 <p>主队列开启异步任务，虽然不会开启新的线程，但是他会把异步任务降低优先级，等闲着的时候，就会在主线程上执行异步任务。在主队列开启同步任务，因为主队列是串行队列，里面的线程是有顺序的，先执行完一个线程才执行下一个线程，而主队列始终就只有一个主线程，主线程是不会执行完毕的，因为他是无限循环的，除非关闭应用程序。因此在主线程开启一个同步任务，同步任务会想抢占执行的资源，而主线程任务一直在执行某些操作，不肯放手。两个的优先级都很高，最终导致死锁，阻塞线程了。</p>
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-</feed>
+
+<span class="byline author vcard">Posted by <span class="fn">Lyxia</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-02T00:44:57+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:44 am</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+
+// 下面的大括号是全角的，如果复制，请自行改成半角
+ 
+     
+ 
+
+</div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/06/02/i-love-coding/">I Love Coding</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Lyxia -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

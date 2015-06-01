@@ -9,7 +9,9 @@
   <meta name="author" content="Lyxia">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="iOS多线程的三种技术 NSThread 使用NSThread对象建立一个线程非常方便
+使用NSThread管理多个线程非常困难，不推荐使用
+使用[NSThread currentThread]跟踪任务所在线程，适用于这三种技术 GCD Grand Central Dispatch(GCD) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -26,7 +28,7 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+  
   
 
 </head>
@@ -63,6 +65,299 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/02/i-love-coding/">I Love Coding</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-02T00:44:57+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:44 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>iOS多线程的三种技术</h1>
+
+<ul>
+<li><strong>NSThread</strong>
+
+<ul>
+<li>使用NSThread对象建立一个线程非常方便</li>
+<li>使用NSThread管理多个线程非常困难，不推荐使用</li>
+<li>使用[NSThread currentThread]跟踪任务所在线程，适用于这三种技术</li>
+</ul>
+</li>
+<li><strong>GCD</strong>
+
+<ul>
+<li>Grand Central Dispatch(GCD)</li>
+<li>是基于C语言的底层API</li>
+<li>用Block定义任务，使用起来非常灵活便捷</li>
+<li>提供了更多的控制能力以及操作队列中所不能使用的底层函数</li>
+</ul>
+</li>
+<li><strong>NSOperationQueue</strong>
+
+<ul>
+<li>是使用GCD实现的一套Objective-C的API</li>
+<li>是面向对象的线程技术</li>
+<li>提供了一些在GCD中不容易实现的特性，如：限制最大并发数量、操作之间的依赖关系</li>
+</ul>
+</li>
+</ul>
+
+
+<h1>iOS中多线程使用的三要素：</h1>
+
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th><strong>同步</strong>   </th>
+<th>  <strong>异步</strong>  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>主队列</strong>   </td>
+<td>   崩溃       </td>
+<td>     主线程 </td>
+</tr>
+<tr>
+<td><strong>串行队列</strong> </td>
+<td> 当前线程      </td>
+<td> 新开一个线程 </td>
+</tr>
+<tr>
+<td><strong>并行队列</strong> </td>
+<td> 当前线程      </td>
+<td> 新开N个线程 </td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>方式</h2>
+
+<ul>
+<li><p>同步(不开线程，在当前线程执行)</p>
+
+<pre><code class="``obj-c">  //GCD
+  //1
+  dispatch_sync(queue, ^{//任务});
+
+  //NSOperation
+  //2
+  [[NSBlockOperation blockOperationWithBlock:^{//任务}] start];
+  //3
+  [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(run) object:nil] start];
+
+  //NSObject
+  //4
+  [self performSelector:@selector(test1) withObject:nil];
+</code></pre></li>
+<li><p>异步(新开线程执行)</p>
+
+<pre><code class="``obj-c">  //GCD
+  //1
+  dispatch_async(queue, ${//任务});
+
+  //NSOperation
+  //2
+  NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+  NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{//任务}];
+  NSInvocationOperation *operation2 = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(run)object:nil];
+  [queue addOperation:operation1];
+  [queue addOperation:operation2];
+  //3
+  NSBlockOperation *operation3 = [NSBlockOperation blockOperationWithBlock:^{//任务1}];
+  [operation3 blockOperationWithBlock:^{//任务2}]
+  [operation3 blockOperationWithBlock:^{//任务3}]
+  [operation3 start];
+
+  //NSObject
+  //4
+  [self performSelectorInBackground:@selector(test1) withObject:nil];
+
+  //NSThread直接创建线程
+  //5 
+  //需要手动开启
+  NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run:) object:@"线程"];
+  [thread start];
+  //自动开启
+  NSThread *thread1 = [[NSThread alloc] detachNewThreadSelector:@selector(run:) toTarget:self withObject:@"自动"];
+
+  //最原始的方式创建线程
+  //6
+  pthread_t thread;
+  pthread_create(&amp;pthread, NULL, run, NULL);
+</code></pre></li>
+<li><p>主线程</p>
+
+<pre><code class="``obj-c">  //GCD
+  //1
+  dispatch_async(dispatch_get_main_queue(), ^{//在主线程执行的代码});
+
+  //NSObject
+  //2
+  [self performSelectorOnMainThread:@selector(test1) withObject:nil waitUntilDone:NO];
+</code></pre></li>
+</ul>
+
+
+<h2>队列</h2>
+
+<ul>
+<li><p>主队列（同步方式运行会崩溃，异步运行在主线程）</p>
+
+<pre><code class="``obj-c    ">  dispatch_get_main_queue()
+</code></pre></li>
+<li><p>串行队列（以异步方式运行时开一个队列FIFO）</p>
+
+<pre><code class="``obj-c    ">  //GCD
+  //1
+  dispatch_create_queue(name,attr) //队列名称，队列属性（NULL）
+
+  //NSOperatorQueue
+  //2
+  NSOperatorQueue *queue = [[NSOperatorQueue alloc] init];
+  [queue setMaxConcurrentOperationCount:1];
+</code></pre></li>
+<li><p>并行队列（以异步方式运行时开多个线程）</p>
+
+<pre><code class="``obj-c">  //GCD
+  //1
+  dispatch_get_global_queue()
+
+  //NSOperatorQueue
+  //2
+  NSOperatorQueue *queue = [[NSOperatorQueue alloc] init];
+  NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{//任务}];
+  NSInvocationOperation *operation2 = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(run)object:nil];
+  [queue addOperation:operation1];
+  [queue addOperation:operation2];
+
+  //NSBlockOperation 任务 &gt; 1
+  //3
+  NSBlockOperation *operation3 = [NSBlockOperation blockOperationWithBlock:^{//任务}];
+  [operation3 blockOperationWithBlock:^{//任务2}];
+  [operation3 blockOperationWithBlock:^{//任务3}];
+  [operation3 start];
+</code></pre></li>
+</ul>
+
+
+<h2>任务</h2>
+
+<pre><code>//将任务封装到NSOperatorOperation中
+
+//在创建线程时写入
+</code></pre>
+
+<h1>iOS多线程特殊用法</h1>
+
+<ul>
+<li><p><strong>线程安全</strong></p>
+
+<pre><code class="``obj-c    ">  @synchronized(self){}
+</code></pre></li>
+<li><p><strong>线程休眠</strong></p>
+
+<pre><code class="``obj-c">  //第一种
+  [NSThread sleepForTimeInterval:2.0];
+  //第二种 以当前时间为基准阻塞
+  NSDate *date = [NSDate dateWithTimeIntervalSinceNow:2.0];
+  [NSThread sleepUntilDate:date];
+</code></pre></li>
+<li><p><strong>延迟执行</strong></p>
+
+<pre><code class="``obj-c">  //NSObject
+  //1
+  [self performSelector:@selector(run) withObject:nil afterDelay:2.0];
+
+  //GCD
+  //2
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+  // 2秒后异步执行这里的代码...
+  });
+</code></pre></li>
+<li><p><strong>一次性执行</strong></p>
+
+<pre><code class="``obj-c">  static dispatch_once_t onceToken;
+  dispatch_once(&amp;onceToken, ^{
+      // 只执行1次的代码(这里面默认是线程安全的)
+  });
+</code></pre></li>
+<li><p><strong>队列组</strong></p>
+
+<pre><code class="``obj-c">  //1、创建一个组
+  dispatch_group_t group = dispatch_group_create();
+  //2、两张图同时下载
+  dispatch_group_async(group, queue, ^{//下载第一张图});
+  dispatch_group_async(group, queue, ^{//下载第二张图});
+  //3、通知
+  dispatch_group_notify(group, dispatch_get_main_queue(), ^{//等两张图都下载完成，回到主线程执行});
+</code></pre></li>
+</ul>
+
+
+<h1>iOS NSOperation的设置</h1>
+
+<ul>
+<li><p><strong>设置任务优先级(说明：优先级高的任务，调用的几率会更大。)</strong></p>
+
+<pre><code class="``obj-c    ">  - (NSOperationQueuePriority)queuePriority;
+  - (void)setQueuePriority:(NSOperationQueuePriority)p;
+  //优先级的取值
+  //NSOperationQueuePriorityVeryLow = -8L,
+  //NSOperationQueuePriorityLow = -4L,
+  //NSOperationQueuePriorityNormal = 0,
+  //NSOperationQueuePriorityHigh = 4,
+  //NSOperationQueuePriorityVeryHigh = 8 
+</code></pre></li>
+<li><p><strong>设置队列状态</strong></p>
+
+<pre><code class="``obj-c">  - (void)cancelAllOperations;
+  - (void)setSuspended:(BOOL)b; // YES代表暂停队列,NO代表恢复队列
+  - (BOOL)isSuspended; //当前状态
+</code></pre></li>
+<li><p><strong>设置队列并发数</strong></p>
+
+<pre><code class="``obj-c">  - (NSInteger)maxConcurrentOperationCount;
+  - (void)setMaxConcurrentOperationCount:(NSInteger)cnt; 
+</code></pre></li>
+<li><p><strong>设置任务依赖（NSOperation之间可以设置依赖来保证执行顺序，⽐如一定要让操作A执行完后,才能执行操作B,可以在不同queue的NSOperation之间创建依赖关系）</strong></p>
+
+<pre><code class="``obj-c    ">  [operationB addDependency:operationA]; // 操作B依赖于操作A
+</code></pre></li>
+<li><p><strong>设置队列监听</strong></p>
+
+<pre><code class="``obj-c">  - (void (^)(void))completionBlock;
+  - (void)setCompletionBlock:(void (^)(void))block; 
+</code></pre></li>
+</ul>
+
+
+<h1>注意的知识点</h1>
+
+<p>主队列开启异步任务，虽然不会开启新的线程，但是他会把异步任务降低优先级，等闲着的时候，就会在主线程上执行异步任务。在主队列开启同步任务，因为主队列是串行队列，里面的线程是有顺序的，先执行完一个线程才执行下一个线程，而主队列始终就只有一个主线程，主线程是不会执行完毕的，因为他是无限循环的，除非关闭应用程序。因此在主线程开启一个同步任务，同步任务会想抢占执行的资源，而主线程任务一直在执行某些操作，不肯放手。两个的优先级都很高，最终导致死锁，阻塞线程了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -74,6 +369,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/06/02/i-love-coding/">I Love Coding</a>
+      </li>
     
   </ul>
 </section>
