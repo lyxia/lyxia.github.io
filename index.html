@@ -9,10 +9,8 @@
   <meta name="author" content="Lyxia">
 
   
-  <meta name="description" content="NSThread 使用NSThread对象建立一个线程非常方便
-使用NSThread管理多个线程非常困难，不推荐使用
-使用[NSThread currentThread]跟踪任务所在线程，适用于这三种技术 GCD Grand Central Dispatch(GCD)
-是基于C语言的底层API &hellip;">
+  <meta name="description" content="开始写博客
+Octopress为我们提供了一些task来创建博文和页面。博文必须存储在source/_posts目录下，并且需要按照Jekyll的命名规范对文章进行命名：YYYY-MM-DD-post-title.markdown。文章的名字会被当做url的一部分， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +63,60 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/02/how-to-write-octopress-blog/">How to Write Octopress Blog</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-02T00:53:19+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:53 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>开始写博客
+Octopress为我们提供了一些task来创建博文和页面。博文必须存储在source/_posts目录下，并且需要按照Jekyll的命名规范对文章进行命名：YYYY-MM-DD-post-title.markdown。文章的名字会被当做url的一部分，而其中的日期用于对博文的区分和排序。</p>
+
+<p>通过Octopress提供的task可以正确的按照命名规范创建一个博文，并且在博文中会附带常用的一些yaml元数据。只需要在终端输入如下命令：
+C代码  收藏代码
+rake new_post[&ldquo;title&rdquo;]</p>
+
+<p>其中title为博文的文件名，创建出来的文件默认是markdown格式。上面的命令会创建出这样一个文件：source/_posts/2013-08-03-title.markdown。打开这个文件，可以看到里面有如下一些内容了(告诉Jekyll博客引擎如何处理博文和页面)：</p>
+
+<h2>C代码  收藏代码</h2>
+
+<p>layout: post<br/>
+title: &ldquo;title&rdquo;<br/>
+date: 2013-08-03 16:36<br/>
+comments: true</p>
+
+<h2>categories:   </h2>
+
+<p>接着我们就可以在这个文件中写我们的博文啦。完成之后，我们可以预览和部署博文。下面是创建并部署博文的一个完整过程：
+C代码  收藏代码
+$ rake new_post[&ldquo;New Post&rdquo;]<br/>
+$ rake generate<br/>
+$ git add .<br/>
+$ git commit -am &ldquo;Some comment here.&rdquo; <br/>
+$ git push origin source<br/>
+$ rake deploy</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -368,6 +420,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/06/02/how-to-write-octopress-blog/">How to Write Octopress Blog</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/06/02/i-love-coding/">iOS多线程的三种技术</a>
