@@ -4,7 +4,7 @@
   <title><![CDATA[小乖乖的博客]]></title>
   <link href="http://lyxia.github.io/atom.xml" rel="self"/>
   <link href="http://lyxia.github.io/"/>
-  <updated>2015-06-02T00:54:48+08:00</updated>
+  <updated>2015-06-08T18:19:13+08:00</updated>
   <id>http://lyxia.github.io/</id>
   <author>
     <name><![CDATA[Lyxia]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CentOS6.6 Gitlab搭建]]></title>
+    <link href="http://lyxia.github.io/blog/2015/06/08/title/"/>
+    <updated>2015-06-08T18:17:08+08:00</updated>
+    <id>http://lyxia.github.io/blog/2015/06/08/title</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Write Octopress Blog]]></title>
