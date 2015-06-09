@@ -9,8 +9,7 @@
   <meta name="author" content="Lyxia">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="准备一台全新的服务，我的是centOS 查看centOS系统版本 cat/etc/redhat-release 或者 rpm -q centos-release 我的cenos mini是： centos-release-6-6.el6.centos.12.2.x86_64 服务器ip： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +81,146 @@
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><p>准备一台全新的服务，我的是centOS</p>
+
+<p><strong>查看centOS系统版本</strong></p>
+
+<p><code>cat/etc/redhat-release</code></p>
+
+<p>或者</p>
+
+<p><code>rpm -q centos-release</code></p>
+
+<p>我的cenos mini是：</p>
+
+<p><code>centos-release-6-6.el6.centos.12.2.x86_64</code></p>
+
+<p><strong>服务器ip：</strong></p>
+
+<p><code>ifconfig</code></p>
+
+<p>输出：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>eth0      Link encap:Ethernet  HWaddr 00:15:5D:02:20:08
+</span><span class='line'>          inet addr:192.168.2.34  Bcast:192.168.2.255  Mask:255.255.255.0
+</span><span class='line'>          inet6 addr: fe80::215:5dff:fe02:2008/64 Scope:Link
+</span><span class='line'>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+</span><span class='line'>          RX packets:164474 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>          TX packets:53244 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>          collisions:0 txqueuelen:1000
+</span><span class='line'>          RX bytes:151856771 (144.8 MiB)  TX bytes:4438161 (4.2 MiB)
+</span><span class='line'>
+</span><span class='line'>lo        Link encap:Local Loopback
+</span><span class='line'>          inet addr:127.0.0.1  Mask:255.0.0.0
+</span><span class='line'>          inet6 addr: ::1/128 Scope:Host
+</span><span class='line'>          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+</span><span class='line'>          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>          collisions:0 txqueuelen:0
+</span><span class='line'>          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p><strong>第一种安装方式：</strong></p></blockquote>
+
+<p><a href="https://github.com/gitlabhq/gitlab-recipes/tree/master/install/centos">gitlabhd官方文档(英文的)</a></p>
+
+<p><a href="http://www.tuicool.com/articles/A3qYRr">gitlabhd基于官方文档的翻译</a></p>
+
+<p>安装过程过于复杂（对于我这种第一次接触服务器的小白），中间会遇到各种坑，不过都能通过baidu，google解决。要手动配置很多东西，一旦弄错了很难找到哪个环节错了，不过对于小白是一个快速熟悉各种命令，学习linux好途径（我整整搭了5天，中途N次想放弃）</p>
+
+<p>排除错误时经常使用的log、命令、配置文件：</p>
+
+<p><strong>配置文件</strong></p>
+
+<p>gitlab</p>
+
+<ul>
+<li>home/git/gitlab-shell config.yml</li>
+<li>home/git/gitlab/config/gitlab.yml</li>
+<li>home/git/gitlab/config/unicorn.rb</li>
+</ul>
+
+
+<p>nginx</p>
+
+<ul>
+<li>etc/nginx/nginx.conf</li>
+<li>etc/nginx/sites-available/gitlab</li>
+</ul>
+
+
+<p><strong>命令：</strong></p>
+
+<ul>
+<li>检测gitlab-sheel：<code>gitlab-shell/bin/check</code></li>
+<li>检测gitlab的配置情况：在gitlab目录下 <code>bundle exec rake gitlab:check RAILS_ENV=production</code></li>
+<li>查看到系统、Ruby、GitLab和GitLab Shell的版本和其他信息：在gitlab目录下 <code>bundle exec rake gitlab:env:info RAILS_ENV=production</code></li>
+</ul>
+
+
+<p><strong>log</strong></p>
+
+<p>nginx</p>
+
+<ul>
+<li>var/log/nginx/gitlab-error.log</li>
+<li>var/log/nginx/gitlab-access.log</li>
+</ul>
+
+
+<p>gitlab-shell</p>
+
+<ul>
+<li>home/git/gitlab-shell/gitlab-shell.log</li>
+<li>home/git/gitlab/log/ 目录下各种log</li>
+</ul>
+
+
+<blockquote><p><strong>第二种安装方式：</strong></p></blockquote>
+
+<p><a href="https://about.gitlab.com/downloads/">gitlabCE安装</a></p>
+
+<p>选择你的操作系统，按步骤来就行了
+如果顺利安装，在浏览器中输入：<code>http://服务器ip</code>即可访问gitlab</p>
+
+<p><strong>遇到的问题：</strong></p>
+
+<ul>
+<li>要安装openssh-clients，不然添加ssh key会出现500错误 <code>yum -y install openssh-clients </code></li>
+<li>会经常提示找不到源，可以去网上找些国内的源，也可以直接翻墙，推荐的翻墙工具：<strong>shadowsocks</strong></li>
+<li>将nginx gitlab.conf中的url改为自己的域名，不然可能无法用浏览器访问</li>
+<li>改完nginx的配置要重启nginx，并且记得清缓存（忘记清缓存会很打击的信息的%>_&lt;%）</li>
+</ul>
+
+
+<blockquote><p><strong>经常用到的命令：</strong></p></blockquote>
+
+<ul>
+<li>在全局环境下查找文件：<code>find / -name "文件名"</code></li>
+<li>以管理员权限运行：<code>sudo 要执行的命令</code></li>
+<li>切换用户：<code>su - 用户名</code></li>
+<li>配置防火墙：<code>vim /etc/sysconfig/iptables</code></li>
+<li>重启防火墙：<code>service iptables restart</code></li>
+</ul>
+
 </div>
 
 
