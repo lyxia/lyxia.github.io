@@ -4,7 +4,7 @@
   <title><![CDATA[小乖乖的博客]]></title>
   <link href="http://lyxia.github.io/atom.xml" rel="self"/>
   <link href="http://lyxia.github.io/"/>
-  <updated>2015-06-09T10:54:14+08:00</updated>
+  <updated>2015-06-09T10:58:21+08:00</updated>
   <id>http://lyxia.github.io/</id>
   <author>
     <name><![CDATA[Lyxia]]></name>
@@ -144,7 +144,7 @@
 <li>要安装openssh-clients，不然添加ssh key会出现500错误 <code>yum -y install openssh-clients </code></li>
 <li>会经常提示找不到源，可以去网上找些国内的源，也可以直接翻墙，推荐的翻墙工具：<strong>shadowsocks</strong></li>
 <li>将nginx gitlab.conf中的url改为自己的域名，不然可能无法用浏览器访问</li>
-<li>改完nginx的配置要重启nginx，并且记得清缓存（忘记清缓存会很打击的信息的%>_&lt;%）</li>
+<li>改完nginx的配置要重启nginx，并且记得清缓存（忘记清缓存会很打击的信心的%>_&lt;%）</li>
 </ul>
 
 
