@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Runtime实例分析 - 小乖乖的博客</title>
+  <meta name="author" content="Lyxia">
+
+  
+  <meta name="description" content="使用NSInvocation在Runtime时调用传入多个参数的方法 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lyxia.github.io/blog/2015/06/17/runtimeshi-li-fen-xi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="小乖乖的博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">小乖乖的博客</a></h1>
+  
+    <h2>小乖乖</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.baidu.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lyxia.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Runtime实例分析</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-17T21:13:08+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:13 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>使用NSInvocation在Runtime时调用传入多个参数的方法</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (id)performSelectorWithTarget:(id)target selector:(SEL)selector withParams:(NSArray *)params
+</span><span class='line'>{
+</span><span class='line'>    NSMethodSignature *signature = [target methodSignatureForSelector:selector];
+</span><span class='line'>    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+</span><span class='line'>    
+</span><span class='line'>    [invocation setTarget:target];
+</span><span class='line'>    [invocation setSelector:selector];
+</span><span class='line'>    
+</span><span class='line'>    //因为前两个参数是target和selector，所以index从2开始
+</span><span class='line'>    NSInteger index = 2;
+</span><span class='line'>    id param;
+</span><span class='line'>    for (param in params) {
+</span><span class='line'>        [invocation setArgument:&param atIndex:index];
+</span><span class='line'>        index++;
+</span><span class='line'>    }
+</span><span class='line'>    //将参数保存起来，防止参数被释放dealloc
+</span><span class='line'>    [invocation retainArguments];
+</span><span class='line'>    //消息调用
+</span><span class='line'>    [invocation invoke];
+</span><span class='line'>    
+</span><span class='line'>    id returnValue;
+</span><span class='line'>    //获取返回值类型
+</span><span class='line'>    const char* returnType = signature.methodReturnType;
+</span><span class='line'>    if (!strcmp(returnType, @encode(void))) {//没有返回值
+</span><span class='line'>        returnValue = nil;
+</span><span class='line'>    } else if(!strcmp(returnType, @encode(id))) {//为id类型
+</span><span class='line'>        [invocation getReturnValue:&returnValue];
+</span><span class='line'>    } else {
+</span><span class='line'>        NSInteger returnLength = signature.methodReturnLength;
+</span><span class='line'>        void *buffer = (void *)malloc(returnLength);
+</span><span class='line'>        [invocation getReturnValue:buffer];
+</span><span class='line'>        if (!strcmp(returnType, @encode(BOOL))) {
+</span><span class='line'>            returnValue = [NSNumber numberWithBool:*((BOOL *)buffer)];
+</span><span class='line'>        } else if(!strcmp(returnType, @encode(NSInteger))){
+</span><span class='line'>            returnValue = [NSNumber numberWithInteger:*((NSInteger *)buffer)];
+</span><span class='line'>        } else {
+</span><span class='line'>            returnValue = [NSValue valueWithBytes:buffer objCType:returnType];
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    return returnValue;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Method Swizzling</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (void)load
+</span><span class='line'>{
+</span><span class='line'>    static dispatch_once_t onceToken;
+</span><span class='line'>    dispatch_once(&onceToken, ^{
+</span><span class='line'>        Class class = [self class];
+</span><span class='line'>        
+</span><span class='line'>        SEL originalSelector = @selector(viewWillAppear:);
+</span><span class='line'>        SEL swizzledSelector = @selector(em_viewWillAppear:);
+</span><span class='line'>        
+</span><span class='line'>        Method originalMethod = class_getInstanceMethod(class, originalSelector);
+</span><span class='line'>        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+</span><span class='line'>        
+</span><span class='line'>        BOOL didAddMethod = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+</span><span class='line'>        if (didAddMethod) {
+</span><span class='line'>            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+</span><span class='line'>        } else {
+</span><span class='line'>            method_exchangeImplementations(originalMethod, swizzledMethod);
+</span><span class='line'>        }
+</span><span class='line'>    });
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)viewWillAppear:(BOOL)animated
+</span><span class='line'>{
+</span><span class='line'>    [super viewWillAppear:animated];
+</span><span class='line'>    
+</span><span class='line'>    NSLog(@"viewWillAppear");
+</span><span class='line'>    
+</span><span class='line'>    [self respondsToSelector:@selector(viewWillAppear:)];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)em_viewWillAppear:(BOOL)animated
+</span><span class='line'>{
+</span><span class='line'>    [self em_viewWillAppear:animated];
+</span><span class='line'>    
+</span><span class='line'>    NSLog(@"em_viewWillAppear");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意点：</p>
+
+<p>1 、 当没有重写父类的viewWillAppear时，@selector(viewWillAppear:)和class_getInstanceMethod返回的是父类的方法实现，所以调用class_addMethod会返回true（相当于重写父类的viewWillAppear:）</p>
+
+<p>2 、 method_exchageImplementations(originalMethod, swizzledMethod)相当于：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IMP originalImp = method_getImplementation:(originalMethod);
+</span><span class='line'>IMP swizzledImp = method_getImplementation:(swizzledMethod);
+</span><span class='line'>method_setImplementation(originalMethod, swizzledImp);
+</span><span class='line'>method_setImplementation(swizzledMethod, originalImp);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3、 em_viewWillAppear:(Bool)animated中之所以写[self em_viewWillAppear:animated]不会死循环是因为交换方法实现后，真正的方法实现如下所示：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (voic)viewWillAppear:(Bool)animated
+</span><span class='line'>{
+</span><span class='line'>  [self em_viewWillAppear:animated];
+</span><span class='line'>  
+</span><span class='line'>  NSLog(@"em_viewWillAppear");
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)em_viewWillAppear:animated
+</span><span class='line'>{
+</span><span class='line'>  [super viewWillAppear:animated];
+</span><span class='line'>  
+</span><span class='line'>  NSLog(@"viewWillAppear");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Lyxia</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-17T21:13:08+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:13 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+
+// 下面的大括号是全角的，如果复制，请自行改成半角
+ 
+     
+ 
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/17/objc-runtime/" title="Previous Post: objc runtime">&laquo; objc runtime</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/06/17/runtimeshi-li-fen-xi/">Runtime实例分析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/17/objc-runtime/">Objc Runtime</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/15/yong-cocoapodszuo-ioscheng-xu-yi-lai-guan-li/">用CocoaPods做iOS程序依赖管理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/08/title/">CentOS6.6 Gitlab搭建</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/02/how-to-write-octopress-blog/">How to Write Octopress Blog</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Lyxia -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
