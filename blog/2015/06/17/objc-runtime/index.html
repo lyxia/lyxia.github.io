@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>小乖乖的博客</title>
+  <title>Objc Runtime - 小乖乖的博客</title>
   <meta name="author" content="Lyxia">
 
   
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lyxia.github.io/">
+  <link rel="canonical" href="http://lyxia.github.io/blog/2015/06/17/objc-runtime/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="小乖乖的博客" type="application/atom+xml">
@@ -61,15 +61,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/06/17/objc-runtime/">Objc Runtime</a></h1>
+      <h1 class="entry-title">Objc Runtime</h1>
     
     
       <p class="meta">
@@ -85,7 +82,7 @@
   </header>
 
 
-  <div class="entry-content"><p><a href="http://yulingtianxia.com/blog/2014/11/05/objective-c-runtime/">runtime初识链接</a></p>
+<div class="entry-content"><p><a href="http://yulingtianxia.com/blog/2014/11/05/objective-c-runtime/">runtime初识链接</a></p>
 
 <p><a href="http://www.cnblogs.com/pengyingh/articles/2359199.html">NSInvocation的使用</a></p>
 
@@ -476,562 +473,50 @@
 </span><span class='line'>Class object_getClass(id obj);</span></code></pre></td></tr></table></div></figure>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/15/yong-cocoapodszuo-ioscheng-xu-yi-lai-guan-li/">用CocoaPods做iOS程序依赖管理</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-15T21:20:56+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>了解cocoaPods：<a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">唐巧的博客</a></p>
-
-<p>创建私有仓库：<a href="http://blog.csdn.net/agdsdl/article/details/45218987">link</a></p>
-</div>
-  
   
 
+<span class="byline author vcard">Posted by <span class="fn">Lyxia</span></span>
 
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/08/title/">CentOS6.6 Gitlab搭建</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-06-08T18:17:08+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:17 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>准备一台全新的服务，我的是centOS</p>
-
-<p><strong>查看centOS系统版本</strong></p>
-
-<p><code>cat/etc/redhat-release</code></p>
-
-<p>或者</p>
-
-<p><code>rpm -q centos-release</code></p>
-
-<p>我的cenos mini是：</p>
-
-<p><code>centos-release-6-6.el6.centos.12.2.x86_64</code></p>
-
-<p><strong>服务器ip：</strong></p>
-
-<p><code>ifconfig</code></p>
-
-<p>输出：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>eth0      Link encap:Ethernet  HWaddr 00:15:5D:02:20:08
-</span><span class='line'>          inet addr:192.168.2.34  Bcast:192.168.2.255  Mask:255.255.255.0
-</span><span class='line'>          inet6 addr: fe80::215:5dff:fe02:2008/64 Scope:Link
-</span><span class='line'>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-</span><span class='line'>          RX packets:164474 errors:0 dropped:0 overruns:0 frame:0
-</span><span class='line'>          TX packets:53244 errors:0 dropped:0 overruns:0 carrier:0
-</span><span class='line'>          collisions:0 txqueuelen:1000
-</span><span class='line'>          RX bytes:151856771 (144.8 MiB)  TX bytes:4438161 (4.2 MiB)
-</span><span class='line'>
-</span><span class='line'>lo        Link encap:Local Loopback
-</span><span class='line'>          inet addr:127.0.0.1  Mask:255.0.0.0
-</span><span class='line'>          inet6 addr: ::1/128 Scope:Host
-</span><span class='line'>          UP LOOPBACK RUNNING  MTU:16436  Metric:1
-</span><span class='line'>          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-</span><span class='line'>          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-</span><span class='line'>          collisions:0 txqueuelen:0
-</span><span class='line'>          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
-</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p><strong>第一种安装方式：</strong></p></blockquote>
-
-<p><a href="https://github.com/gitlabhq/gitlab-recipes/tree/master/install/centos">gitlabhd官方文档(英文的)</a></p>
-
-<p><a href="http://www.tuicool.com/articles/A3qYRr">gitlabhd基于官方文档的翻译</a></p>
-
-<p>安装过程过于复杂（对于我这种第一次接触服务器的小白），中间会遇到各种坑，不过都能通过baidu，google解决。要手动配置很多东西，一旦弄错了很难找到哪个环节错了，不过对于小白是一个快速熟悉各种命令，学习linux好途径（我整整搭了5天，中途N次想放弃）</p>
-
-<p>排除错误时经常使用的log、命令、配置文件：</p>
-
-<p><strong>配置文件</strong></p>
-
-<p>gitlab</p>
-
-<ul>
-<li>home/git/gitlab-shell config.yml</li>
-<li>home/git/gitlab/config/gitlab.yml</li>
-<li>home/git/gitlab/config/unicorn.rb</li>
-</ul>
-
-
-<p>nginx</p>
-
-<ul>
-<li>etc/nginx/nginx.conf</li>
-<li>etc/nginx/sites-available/gitlab</li>
-</ul>
-
-
-<p><strong>命令：</strong></p>
-
-<ul>
-<li>检测gitlab-sheel：<code>gitlab-shell/bin/check</code></li>
-<li>检测gitlab的配置情况：在gitlab目录下 <code>bundle exec rake gitlab:check RAILS_ENV=production</code></li>
-<li>查看到系统、Ruby、GitLab和GitLab Shell的版本和其他信息：在gitlab目录下 <code>bundle exec rake gitlab:env:info RAILS_ENV=production</code></li>
-</ul>
-
-
-<p><strong>log</strong></p>
-
-<p>nginx</p>
-
-<ul>
-<li>var/log/nginx/gitlab-error.log</li>
-<li>var/log/nginx/gitlab-access.log</li>
-</ul>
-
-
-<p>gitlab-shell</p>
-
-<ul>
-<li>home/git/gitlab-shell/gitlab-shell.log</li>
-<li>home/git/gitlab/log/ 目录下各种log</li>
-</ul>
-
-
-<blockquote><p><strong>第二种安装方式：</strong></p></blockquote>
-
-<p><a href="https://about.gitlab.com/downloads/">gitlabCE安装</a></p>
-
-<p>选择你的操作系统，按步骤来就行了
-如果顺利安装，在浏览器中输入：<code>http://服务器ip</code>即可访问gitlab</p>
-
-<p><strong>遇到的问题：</strong></p>
-
-<ul>
-<li>要安装openssh-clients，不然添加ssh key会出现500错误 <code>yum -y install openssh-clients </code></li>
-<li>会经常提示找不到源，可以去网上找些国内的源，也可以直接翻墙，推荐的翻墙工具：<strong>shadowsocks</strong></li>
-<li>将nginx gitlab.conf中的url改为自己的域名，不然可能无法用浏览器访问</li>
-<li>改完nginx的配置要重启nginx，并且记得清缓存（忘记清缓存会很打击的信心的%>_&lt;%）</li>
-</ul>
-
-
-<blockquote><p><strong>经常用到的命令：</strong></p></blockquote>
-
-<ul>
-<li>在全局环境下查找文件：<code>find / -name "文件名"</code></li>
-<li>以管理员权限运行：<code>sudo 要执行的命令</code></li>
-<li>切换用户：<code>su - 用户名</code></li>
-<li>配置防火墙：<code>vim /etc/sysconfig/iptables</code></li>
-<li>重启防火墙：<code>service iptables restart</code></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time class='entry-date' datetime='2015-06-17T15:26:05+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:26 pm</span></time>
       
-  <header>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2015/06/02/how-to-write-octopress-blog/">How to Write Octopress Blog</a></h1>
-    
-    
-      <p class="meta">
-        
+      <div class="sharing">
+  
+  
+  
 
+// 下面的大括号是全角的，如果复制，请自行改成半角
+ 
+     
+ 
 
-
-
-<time class='entry-date' datetime='2015-06-02T00:53:19+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:53 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>开始写博客
-Octopress为我们提供了一些task来创建博文和页面。博文必须存储在source/_posts目录下，并且需要按照Jekyll的命名规范对文章进行命名：YYYY-MM-DD-post-title.markdown。文章的名字会被当做url的一部分，而其中的日期用于对博文的区分和排序。</p>
-
-<p>通过Octopress提供的task可以正确的按照命名规范创建一个博文，并且在博文中会附带常用的一些yaml元数据。只需要在终端输入如下命令：
-C代码  收藏代码
-rake new_post[&ldquo;title&rdquo;]</p>
-
-<p>其中title为博文的文件名，创建出来的文件默认是markdown格式。上面的命令会创建出这样一个文件：source/_posts/2013-08-03-title.markdown。打开这个文件，可以看到里面有如下一些内容了(告诉Jekyll博客引擎如何处理博文和页面)：</p>
-
-<h2>C代码  收藏代码</h2>
-
-<p>layout: post<br/>
-title: &ldquo;title&rdquo;<br/>
-date: 2013-08-03 16:36<br/>
-comments: true</p>
-
-<h2>categories:   </h2>
-
-<p>接着我们就可以在这个文件中写我们的博文啦。完成之后，我们可以预览和部署博文。下面是创建并部署博文的一个完整过程：
-C代码  收藏代码
-$ rake new_post[&ldquo;New Post&rdquo;]<br/>
-$ rake generate<br/>
-$ git add .<br/>
-$ git commit -am &ldquo;Some comment here.&rdquo; <br/>
-$ git push origin source<br/>
-$ rake deploy</p>
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/02/i-love-coding/">iOS多线程的三种技术</a></h1>
-    
-    
-      <p class="meta">
-        
+        <a class="basic-alignment left" href="/blog/2015/06/15/yong-cocoapodszuo-ioscheng-xu-yi-lai-guan-li/" title="Previous Post: 用CocoaPods做iOS程序依赖管理">&laquo; 用CocoaPods做iOS程序依赖管理</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-
-
-
-<time class='entry-date' datetime='2015-06-02T00:44:57+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:44 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li><strong>NSThread</strong>
-
-<ul>
-<li>使用NSThread对象建立一个线程非常方便</li>
-<li>使用NSThread管理多个线程非常困难，不推荐使用</li>
-<li>使用[NSThread currentThread]跟踪任务所在线程，适用于这三种技术</li>
-</ul>
-</li>
-<li><strong>GCD</strong>
-
-<ul>
-<li>Grand Central Dispatch(GCD)</li>
-<li>是基于C语言的底层API</li>
-<li>用Block定义任务，使用起来非常灵活便捷</li>
-<li>提供了更多的控制能力以及操作队列中所不能使用的底层函数</li>
-</ul>
-</li>
-<li><strong>NSOperationQueue</strong>
-
-<ul>
-<li>是使用GCD实现的一套Objective-C的API</li>
-<li>是面向对象的线程技术</li>
-<li>提供了一些在GCD中不容易实现的特性，如：限制最大并发数量、操作之间的依赖关系</li>
-</ul>
-</li>
-</ul>
-
-
-<h1>iOS中多线程使用的三要素：</h1>
-
-<table>
-<thead>
-<tr>
-<th>-</th>
-<th><strong>同步</strong>   </th>
-<th>  <strong>异步</strong>  </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>主队列</strong>   </td>
-<td>   崩溃       </td>
-<td>     主线程 </td>
-</tr>
-<tr>
-<td><strong>串行队列</strong> </td>
-<td> 当前线程      </td>
-<td> 新开一个线程 </td>
-</tr>
-<tr>
-<td><strong>并行队列</strong> </td>
-<td> 当前线程      </td>
-<td> 新开N个线程 </td>
-</tr>
-</tbody>
-</table>
-
-
-<h2>方式</h2>
-
-<ul>
-<li><p>同步(不开线程，在当前线程执行)</p>
-
-<pre><code class="``obj-c">  //GCD
-  //1
-  dispatch_sync(queue, ^{//任务});
-
-  //NSOperation
-  //2
-  [[NSBlockOperation blockOperationWithBlock:^{//任务}] start];
-  //3
-  [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(run) object:nil] start];
-
-  //NSObject
-  //4
-  [self performSelector:@selector(test1) withObject:nil];
-</code></pre></li>
-<li><p>异步(新开线程执行)</p>
-
-<pre><code class="``obj-c">  //GCD
-  //1
-  dispatch_async(queue, ${//任务});
-
-  //NSOperation
-  //2
-  NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-  NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{//任务}];
-  NSInvocationOperation *operation2 = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(run)object:nil];
-  [queue addOperation:operation1];
-  [queue addOperation:operation2];
-  //3
-  NSBlockOperation *operation3 = [NSBlockOperation blockOperationWithBlock:^{//任务1}];
-  [operation3 blockOperationWithBlock:^{//任务2}]
-  [operation3 blockOperationWithBlock:^{//任务3}]
-  [operation3 start];
-
-  //NSObject
-  //4
-  [self performSelectorInBackground:@selector(test1) withObject:nil];
-
-  //NSThread直接创建线程
-  //5 
-  //需要手动开启
-  NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run:) object:@"线程"];
-  [thread start];
-  //自动开启
-  NSThread *thread1 = [[NSThread alloc] detachNewThreadSelector:@selector(run:) toTarget:self withObject:@"自动"];
-
-  //最原始的方式创建线程
-  //6
-  pthread_t thread;
-  pthread_create(&amp;pthread, NULL, run, NULL);
-</code></pre></li>
-<li><p>主线程</p>
-
-<pre><code class="``obj-c">  //GCD
-  //1
-  dispatch_async(dispatch_get_main_queue(), ^{//在主线程执行的代码});
-
-  //NSObject
-  //2
-  [self performSelectorOnMainThread:@selector(test1) withObject:nil waitUntilDone:NO];
-</code></pre></li>
-</ul>
-
-
-<h2>队列</h2>
-
-<ul>
-<li><p>主队列（同步方式运行会崩溃，异步运行在主线程）</p>
-
-<pre><code class="``obj-c    ">  dispatch_get_main_queue()
-</code></pre></li>
-<li><p>串行队列（以异步方式运行时开一个队列FIFO）</p>
-
-<pre><code class="``obj-c    ">  //GCD
-  //1
-  dispatch_create_queue(name,attr) //队列名称，队列属性（NULL）
-
-  //NSOperatorQueue
-  //2
-  NSOperatorQueue *queue = [[NSOperatorQueue alloc] init];
-  [queue setMaxConcurrentOperationCount:1];
-</code></pre></li>
-<li><p>并行队列（以异步方式运行时开多个线程）</p>
-
-<pre><code class="``obj-c">  //GCD
-  //1
-  dispatch_get_global_queue()
-
-  //NSOperatorQueue
-  //2
-  NSOperatorQueue *queue = [[NSOperatorQueue alloc] init];
-  NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{//任务}];
-  NSInvocationOperation *operation2 = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(run)object:nil];
-  [queue addOperation:operation1];
-  [queue addOperation:operation2];
-
-  //NSBlockOperation 任务 &gt; 1
-  //3
-  NSBlockOperation *operation3 = [NSBlockOperation blockOperationWithBlock:^{//任务}];
-  [operation3 blockOperationWithBlock:^{//任务2}];
-  [operation3 blockOperationWithBlock:^{//任务3}];
-  [operation3 start];
-</code></pre></li>
-</ul>
-
-
-<h2>任务</h2>
-
-<pre><code>//将任务封装到NSOperatorOperation中
-
-//在创建线程时写入
-</code></pre>
-
-<h1>iOS多线程特殊用法</h1>
-
-<ul>
-<li><p><strong>线程安全</strong></p>
-
-<pre><code class="``obj-c    ">  @synchronized(self){}
-</code></pre></li>
-<li><p><strong>线程休眠</strong></p>
-
-<pre><code class="``obj-c">  //第一种
-  [NSThread sleepForTimeInterval:2.0];
-  //第二种 以当前时间为基准阻塞
-  NSDate *date = [NSDate dateWithTimeIntervalSinceNow:2.0];
-  [NSThread sleepUntilDate:date];
-</code></pre></li>
-<li><p><strong>延迟执行</strong></p>
-
-<pre><code class="``obj-c">  //NSObject
-  //1
-  [self performSelector:@selector(run) withObject:nil afterDelay:2.0];
-
-  //GCD
-  //2
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-  // 2秒后异步执行这里的代码...
-  });
-</code></pre></li>
-<li><p><strong>一次性执行</strong></p>
-
-<pre><code class="``obj-c">  static dispatch_once_t onceToken;
-  dispatch_once(&amp;onceToken, ^{
-      // 只执行1次的代码(这里面默认是线程安全的)
-  });
-</code></pre></li>
-<li><p><strong>队列组</strong></p>
-
-<pre><code class="``obj-c">  //1、创建一个组
-  dispatch_group_t group = dispatch_group_create();
-  //2、两张图同时下载
-  dispatch_group_async(group, queue, ^{//下载第一张图});
-  dispatch_group_async(group, queue, ^{//下载第二张图});
-  //3、通知
-  dispatch_group_notify(group, dispatch_get_main_queue(), ^{//等两张图都下载完成，回到主线程执行});
-</code></pre></li>
-</ul>
-
-
-<h1>iOS NSOperation的设置</h1>
-
-<ul>
-<li><p><strong>设置任务优先级(说明：优先级高的任务，调用的几率会更大。)</strong></p>
-
-<pre><code class="``obj-c    ">  - (NSOperationQueuePriority)queuePriority;
-  - (void)setQueuePriority:(NSOperationQueuePriority)p;
-  //优先级的取值
-  //NSOperationQueuePriorityVeryLow = -8L,
-  //NSOperationQueuePriorityLow = -4L,
-  //NSOperationQueuePriorityNormal = 0,
-  //NSOperationQueuePriorityHigh = 4,
-  //NSOperationQueuePriorityVeryHigh = 8 
-</code></pre></li>
-<li><p><strong>设置队列状态</strong></p>
-
-<pre><code class="``obj-c">  - (void)cancelAllOperations;
-  - (void)setSuspended:(BOOL)b; // YES代表暂停队列,NO代表恢复队列
-  - (BOOL)isSuspended; //当前状态
-</code></pre></li>
-<li><p><strong>设置队列并发数</strong></p>
-
-<pre><code class="``obj-c">  - (NSInteger)maxConcurrentOperationCount;
-  - (void)setMaxConcurrentOperationCount:(NSInteger)cnt; 
-</code></pre></li>
-<li><p><strong>设置任务依赖（NSOperation之间可以设置依赖来保证执行顺序，⽐如一定要让操作A执行完后,才能执行操作B,可以在不同queue的NSOperation之间创建依赖关系）</strong></p>
-
-<pre><code class="``obj-c    ">  [operationB addDependency:operationA]; // 操作B依赖于操作A
-</code></pre></li>
-<li><p><strong>设置队列监听</strong></p>
-
-<pre><code class="``obj-c">  - (void (^)(void))completionBlock;
-  - (void)setCompletionBlock:(void (^)(void))block; 
-</code></pre></li>
-</ul>
-
-
-<h1>注意的知识点</h1>
-
-<p>主队列开启异步任务，虽然不会开启新的线程，但是他会把异步任务降低优先级，等闲着的时候，就会在主线程上执行异步任务。在主队列开启同步任务，因为主队列是串行队列，里面的线程是有顺序的，先执行完一个线程才执行下一个线程，而主队列始终就只有一个主线程，主线程是不会执行完毕的，因为他是无限循环的，除非关闭应用程序。因此在主线程开启一个同步任务，同步任务会想抢占执行的资源，而主线程任务一直在执行某些操作，不肯放手。两个的优先级都很高，最终导致死锁，阻塞线程了。</p>
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -1067,6 +552,7 @@ $ rake deploy</p>
 
   
 </aside>
+
 
     </div>
   </div>

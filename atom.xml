@@ -4,7 +4,7 @@
   <title><![CDATA[小乖乖的博客]]></title>
   <link href="http://lyxia.github.io/atom.xml" rel="self"/>
   <link href="http://lyxia.github.io/"/>
-  <updated>2015-06-15T21:25:28+08:00</updated>
+  <updated>2015-06-17T18:45:43+08:00</updated>
   <id>http://lyxia.github.io/</id>
   <author>
     <name><![CDATA[Lyxia]]></name>
@@ -14,13 +14,411 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Objc Runtime]]></title>
+    <link href="http://lyxia.github.io/blog/2015/06/17/objc-runtime/"/>
+    <updated>2015-06-17T15:26:05+08:00</updated>
+    <id>http://lyxia.github.io/blog/2015/06/17/objc-runtime</id>
+    <content type="html"><![CDATA[<p><a href="http://yulingtianxia.com/blog/2014/11/05/objective-c-runtime/">runtime初识链接</a></p>
+
+<p><a href="http://www.cnblogs.com/pengyingh/articles/2359199.html">NSInvocation的使用</a></p>
+
+<p><a href="http://blog.csdn.net/onlyou930/article/details/7548476">NSProxy的使用</a></p>
+
+<h2>NSObject.h</h2>
+
+<p>头文件路径：usr/include/objc/NSObject.h</p>
+
+<p><strong>ios应用启动的时候，就会加载所有的类，就会调用这个方法。</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+(void)load</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+(void)initialize</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>与消息转发有关的三个方法（动态方法解析）：</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import "ViewController.h"
+</span><span class='line'>#import &lt;objc/runtime.h&gt;
+</span><span class='line'>
+</span><span class='line'>void dynamicMethodIMP(id self, SEL _cmd)
+</span><span class='line'>{
+</span><span class='line'>    NSLog(@"dynamicMethodIMP");
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@interface alternate : NSObject
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>@implementation alternate
+</span><span class='line'>
+</span><span class='line'>- (void)forwardingTargetToAlertnate
+</span><span class='line'>{
+</span><span class='line'>    NSLog(@"alternateObject forwardingTargetToAlertnate");
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)forwardInvocationHandler
+</span><span class='line'>{
+</span><span class='line'>    NSLog(@"alternateObject forwardInvocationHandler");
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>@interface ViewController ()
+</span><span class='line'>@property (nonatomic, strong) alternate *alternateObject;
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>@implementation HelloRuntime
+</span><span class='line'>
+</span><span class='line'>- (instancetype)init
+</span><span class='line'>{
+</span><span class='line'>    if(self = [super init])
+</span><span class='line'>    {
+</span><span class='line'>      [self performSelector:sel_registerName("resolveThisMethodDynamically") withObject:nil];
+</span><span class='line'>      [self performSelector:sel_registerName("forwardingTargetToAlertnate") withObject:nil];
+</span><span class='line'>      [self performSelector:sel_registerName("forwardInvocationHandler") withObject:nil];
+</span><span class='line'>    }
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/**
+</span><span class='line'>消息发送步骤：
+</span><span class='line'>1、检测这个 selector 是不是要忽略的。比如 Mac OS X 开发，有了垃圾回收就不理会 retain, release 这些函数了。
+</span><span class='line'>2、检测这个 target 是不是 nil 对象。ObjC 的特性是允许对一个 nil 对象执行任何一个方法不会 Crash，因为会被忽略掉。
+</span><span class='line'>3、如果上面两个都过了，那就开始查找这个类的 IMP，先从 cache 里面找，完了找得到就跳到对应的函数去执行。
+</span><span class='line'>4、如果 cache 找不到就找一下方法分发表。
+</span><span class='line'>5、如果分发表找不到就到超类的分发表去找，一直找，直到找到NSObject类为止。
+</span><span class='line'>6、如果还找不到就要开始进入动态方法解析了，后面会提到。
+</span><span class='line'> */
+</span><span class='line'>
+</span><span class='line'>//动态方法解析
+</span><span class='line'>//动态方法解析器将会被首先给予一个提供该方法选择器对应的IMP的机会。如果你想让该方法选择器被传送到转发机制，那么就让resolveInstanceMethod:返回NO。
+</span><span class='line'>#pragma mark - 动态方法解析
+</span><span class='line'>+ (BOOL)resolveInstanceMethod:(SEL)sel
+</span><span class='line'>{
+</span><span class='line'>    if (sel == sel_registerName("resolveThisMethodDynamically")) {
+</span><span class='line'>        class_addMethod([self class], sel, (IMP)dynamicMethodIMP, "v@:");
+</span><span class='line'>        return YES;
+</span><span class='line'>    }
+</span><span class='line'>    return NO;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>//重定向
+</span><span class='line'>//消息转发机制执行前，Runtime 系统会再给我们一次偷梁换柱的机会，即通过重载- (id)forwardingTargetForSelector:(SEL)aSelector方法替换消息的接受者为其他对象
+</span><span class='line'>// 如果此方法返回nil或self,则会进入消息转发机制(forwardInvocation:),否则将向返回的对象重新发送消息。
+</span><span class='line'>- (id)forwardingTargetForSelector:(SEL)aSelector
+</span><span class='line'>{
+</span><span class='line'>    if (aSelector == sel_registerName("forwardingTargetToAlertnate")) {
+</span><span class='line'>        return self.alternateObject;
+</span><span class='line'>    }
+</span><span class='line'>    return [super forwardingTargetForSelector:aSelector];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>//进入转发机制
+</span><span class='line'>//这里需要注意的是参数anInvocation是从哪的来的呢？其实在forwardInvocation:消息发送前，Runtime系统会向对象发送methodSignatureForSelector:消息，并取到返回的方法签名用于生成NSInvocation对象。所以我们在重写forwardInvocation:的同时也要重写methodSignatureForSelector:方法，否则会抛异常。
+</span><span class='line'>- (void)forwardInvocation:(NSInvocation *)anInvocation
+</span><span class='line'>{
+</span><span class='line'>    if ([self.alternateObject respondsToSelector:anInvocation.selector]) {
+</span><span class='line'>        [anInvocation invokeWithTarget:self.alternateObject];
+</span><span class='line'>    } else {
+</span><span class='line'>        [super forwardInvocation:anInvocation];
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
+</span><span class='line'>{
+</span><span class='line'>    NSMethodSignature *signature = [super methodSignatureForSelector:sel];
+</span><span class='line'>    if (!signature) {
+</span><span class='line'>        signature = [self.alternateObject methodSignatureForSelector:sel];
+</span><span class='line'>    }
+</span><span class='line'>    return signature;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>动态方法解析分析图：</p>
+
+<p><img src="http://7ni3rk.com1.z0.glb.clouddn.com/QQ20141113-1@2x.png?imageView2/2/w/800/q/75|watermark/2/text/eXVsaW5ndGlhbnhpYQ==/font/Y29taWMgc2FucyBtcw==/fontsize/500/fill/I0VGRUZFRg==/dissolve/100/gravity/SouthEast/dx/10/dy/10" alt="image" /></p>
+
+<p><strong>获得方法实现地址：</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (IMP)methodForSelector:(SEL)aSelector;
+</span><span class='line'>+ (IMP)instanceMethodForSelector:(SEL)aSelector;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>判读是否实现特定协议：</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (BOOL)conformsToProtocol:(Protocol *)aProtocol;
+</span><span class='line'>+ (BOOL)conformsToProtocol:(Protocol *)protocol;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>判读是否能响应特定选择器：</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (BOOL)respondsToSelector:(SEL)aSelector;
+</span><span class='line'>+ (BOOL)instancesRespondToSelector:(SEL)aSelector;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>类关系判断：</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (BOOL)isKindOfClass:(Class)aClass;
+</span><span class='line'>- (BOOL)isMemberOfClass:(Class)aClass;
+</span><span class='line'>+ (BOOL)isSubclassOfClass:(Class)aClass;
+</span><span class='line'>+ (Class)superclass;
+</span><span class='line'>+ (Class)class;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>runtime.h</h2>
+
+<p>头文件路径：usr/include/objc/runtime.h</p>
+
+<p><strong>Objective-C Associated Objects</strong></p>
+
+<p>在 OS X 10.6 之后，Runtime系统让Objc支持向对象动态添加变量。涉及到的函数有以下三个：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void objc_setAssociatedObject ( id object, const void *key, id value, objc_AssociationPolicy policy );
+</span><span class='line'>id objc_getAssociatedObject ( id object, const void *key );
+</span><span class='line'>void objc_removeAssociatedObjects ( id object );</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这些方法以键值对的形式动态地向对象添加、获取或删除关联值。其中关联政策是一组枚举常量：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>enum {
+</span><span class='line'>   OBJC_ASSOCIATION_ASSIGN  = 0,
+</span><span class='line'>   OBJC_ASSOCIATION_RETAIN_NONATOMIC  = 1,
+</span><span class='line'>   OBJC_ASSOCIATION_COPY_NONATOMIC  = 3,
+</span><span class='line'>   OBJC_ASSOCIATION_RETAIN  = 01401,
+</span><span class='line'>   OBJC_ASSOCIATION_COPY  = 01403
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这些常量对应着引用关联值的政策，也就是 Objc 内存管理的引用计数机制。</p>
+
+<p>注意：Associated Objects与对象属性不是一回事，对象并不会添加变量名为key值为value的属性。</p>
+
+<p><strong>Working with Selectors</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>const char *sel_getName(SEL sel)；
+</span><span class='line'>SEL sel_registerName(const char *str)</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Working with Libraries</strong></p>
+
+<p><strong>Working with Protocols</strong></p>
+
+<p><strong>Working with Properties</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>const char *property_getName(objc_property_t property);
+</span><span class='line'>const char *property_getAttributes(objc_property_t property);
+</span><span class='line'>objc_property_attribute_t *property_copyAttributeList(objc_property_t property, unsigned int *outCount);
+</span><span class='line'>char *property_copyAttributeValue(objc_property_t property, const char *attributeName)</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Working with Instance Variables</strong></p>
+
+<p><strong>Working with Methods</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SEL method_getName(Method m);
+</span><span class='line'>IMP method_getImplementation(Method m);
+</span><span class='line'>const char *method_getTypeEncoding(Method m);
+</span><span class='line'>unsigned int method_getNumberOfArguments(Method m);
+</span><span class='line'>char *method_copyReturnType(Method m);
+</span><span class='line'>char *method_copyArgumentType(Method m, unsigned int index);
+</span><span class='line'>void method_getReturnType(Method m, char *dst, size_t dst_len);
+</span><span class='line'>void method_getArgumentType(Method m, unsigned int index, char *dst, size_t dst_len);
+</span><span class='line'>IMP method_setImplementation(Method m, IMP imp);
+</span><span class='line'>method_exchangeImplementations(Method m1, Method m2);</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Working with Classes</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>const char *class_getName(Class cls);
+</span><span class='line'>Class class_getSuperclass(Class cls);
+</span><span class='line'>Method class_getInstanceMethod(Class cls, SEL name);
+</span><span class='line'>Method class_getClassMethod(Class cls, SEL name);
+</span><span class='line'>IMP class_getMethodImplementation(Class cls, SEL name);
+</span><span class='line'>IMP class_getMethodImplementation_stret(Class cls, SEL name);
+</span><span class='line'>Method *class_copyMethodList(Class cls, unsigned int *outCount);
+</span><span class='line'>Protocol * __unsafe_unretained *class_copyProtocolList(Class cls, unsigned int *outCount);
+</span><span class='line'>objc_property_t *class_copyPropertyList(Class cls, unsigned int *outCount);
+</span><span class='line'>objc_property_t class_getProperty(Class cls, const char *name);
+</span><span class='line'>BOOL class_addMethod(Class cls, SEL name, IMP imp, const char *types);
+</span><span class='line'>IMP class_replaceMethod(Class cls, SEL name, IMP imp, const char *types);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Working with Instances</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Class objc_getClass(const char *name);
+</span><span class='line'>const char *object_getClassName(id obj);
+</span><span class='line'>BOOL object_isClass(id obj);
+</span><span class='line'>Class object_getClass(id obj);</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[用CocoaPods做iOS程序依赖管理]]></title>
     <link href="http://lyxia.github.io/blog/2015/06/15/yong-cocoapodszuo-ioscheng-xu-yi-lai-guan-li/"/>
     <updated>2015-06-15T21:20:56+08:00</updated>
     <id>http://lyxia.github.io/blog/2015/06/15/yong-cocoapodszuo-ioscheng-xu-yi-lai-guan-li</id>
     <content type="html"><![CDATA[<p>了解cocoaPods：<a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">唐巧的博客</a></p>
 
-<p>创建私有仓库：<a href="CocoaPods%E5%BB%BA%E7%AB%8B%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93">link</a></p>
+<p>创建私有仓库：<a href="http://blog.csdn.net/agdsdl/article/details/45218987">link</a></p>
 ]]></content>
   </entry>
   
